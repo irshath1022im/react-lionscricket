@@ -1,155 +1,112 @@
+import axios from 'axios';
 import React from 'react'
 import { FcNext, FcPrevious } from 'react-icons/fc';
 import Title from '../Shared/Title';
+import PlayerCard from './Players/PlayerCard';
 
 class Players extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
-            players: [
-                {
-                    id:1,
-                    name: 'Atharith',
-                    img: 'atharith.jpeg',
-                    battingStyle: 'left hand',
-                    status: 'All Rounder'
-                },
-                {
-                    id:2,
-                    name: 'Siraj',
-                    img: 'Siraj.jpeg',
-                    battingStyle: 'Right hand',
-                    status: 'All Rounder , Wicket Keeper'
-                },
-                {
-                    id:3,
-                    name: 'Sinthu',
-                    img: 'sinthu.jpeg',
-                    battingStyle: 'Right hand',
-                    status: 'All Rounder'
-                },
-                {
-                    id:4,
-                    name: 'Fasmir',
-                    img: 'fasmir.jpeg',
-                    battingStyle: 'left hand',
-                    status: 'All Rounder'
-                }
-            ],
-            activeProfile: [0 , 1]
-         }
+            players: [],
+            next_page_url: null,
+            prev_page_url: null,
+             }
+    }
+
+async componentDidMount() {
+
+    try {
+        const result = await  axios.get(`${process.env.REACT_APP_API_SERVER}/player`)
+        // console.log(result)
+        this.setState({
+            players: result.data.data,
+            next_page_url: result.data.next_page_url,
+            prev_page_url: result.data.prev_page_url
+        })
+
+    } catch (error) {
+        console.log(error)
+    }
+
+ 
+}
+
+loadMorePlayer = async () =>{
+        const {next_page_url} = this.state
+    try {
+        const result = await axios.get(next_page_url)
+        // console.log(result)
+        if(result.status === 200) {
+            this.setState({
+                players: result.data.data,
+                next_page_url: result.data.next_page_url,
+                prev_page_url: result.data.prev_page_url
+
+            })
+        }
+    } catch (error) {
+        console.log(error)
+    }
+
+         
+
+}
+
+loadPrevePlayer = async () =>{
+    const {prev_page_url} = this.state
+    try {
+        const result = await axios.get(prev_page_url)
+        // console.log(result)
+        if(result.status === 200) {
+            this.setState({
+                players: result.data.data,
+                next_page_url: result.data.next_page_url,
+                prev_page_url: result.data.prev_page_url
+
+            })
+        }
+    } catch (error) {
+        console.log(error)
     }
 
 
-loadMorePlayer = () =>{
-
-    const {activeProfile} = this.state
-
-    let newProfile = [];
-
-        activeProfile.forEach(element => {
-            // console.log(element)
-            if(element > 2){
-
-                this.setState({
-                    activeProfile : [0,1]
-                })
-            }else{
-
-                newProfile.push(element+1)
-                this.setState({
-                    activeProfile : newProfile
-                })
-            }
-        });
-
-        // do {
-        //     activeProfile.forEach(element => {
-        //         newProfile.push(element + 1);
-        //     });
-        // } while (activeProfile.length + 1);
-
-        // for (let index = 0; index < activeProfile.length + 1; index++) {
-        //     newProfile.push(activeProfile[index] + 1);
-        // }
-
-         
-
 }
 
-loadPrevePlayer = () =>{
-
-    const {activeProfile} = this.state
-
-    let newProfile = [];
-
-        activeProfile.forEach(element => {
-            // console.log(element)
-            if(element < 1){
-
-                this.setState({
-                    activeProfile : [0,1]
-                })
-            }else{
-
-                newProfile.push(element-1)
-                this.setState({
-                    activeProfile : newProfile
-                })
-            }
-        });
-
-        // do {
-        //     activeProfile.forEach(element => {
-        //         newProfile.push(element + 1);
-        //     });
-        // } while (activeProfile.length + 1);
-
-        // for (let index = 0; index < activeProfile.length + 1; index++) {
-        //     newProfile.push(activeProfile[index] + 1);
-        // }
-
-         
-
-}
-
-    render() { 
-        const {players,activeProfile} = this.state;
+render() { 
+        const {players} = this.state;
         return (
             <div>
                 <Title  title="Players" />
 
                 {
+
+                    // console.log(players.length)
                     players.length > 0 ?
 
-                        
-                        
-                        
-                        <div className="players">
-                        <FcPrevious className="preveIcon" onClick={this.loadPrevePlayer}/>
-                       
-                        {
-                            activeProfile.map( (player,key)=> {
-                                return (
-                                    <div key={key} className="player">
+                        <div className="player-widget">
 
-                                        <div className="player-img">
-                                            <img src={`/images/players/${players[player].img}` }/>
-                                        </div>
+                                <div className="players-fcPrevious">
+                                    <FcPrevious onClick={this.loadPrevePlayer}/>
+                                </div>
+                            <div className="players" >
+                              
+                                {
+                                    players.map( (player,key)=>{
+                                        return(
+                                           <PlayerCard  player={player} key={key} />
+                                        )
+                                    })
 
-                                        <div className="player-title">
-                                            <h5>{players[player].name}</h5>
-                                            <span>{players[player].battingStyle}, {players[player].status}</span>
-                                        </div>
-
-                                        
-                                    </div>
+                            }
                             
-                                )
-                            })
-                        }
-                        <FcNext  className="nextIcon" onClick={ this.loadMorePlayer}/>
                         </div>
+
+                        <div className="players-fcNext">
+                          <FcNext onClick={this.loadMorePlayer}/>
+                        </div>
+                    </div>
+
                     : 
                         <div className="alert alert-info" role="alert">
                         No Player Found...
@@ -161,7 +118,7 @@ loadPrevePlayer = () =>{
                  
             </div>
           );
-    }
-}
+    } // end of render
+} // end of class
  
 export default Players;

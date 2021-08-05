@@ -19,7 +19,7 @@ async componentDidMount(){
     try {
         
         const result = await axios.get(`${process.env.REACT_APP_API_SERVER}/match`)
-        console.log(result.data)
+        // console.log(result.data)
         if(result.status === 200) {
             this.setState({
                 matches: result.data,
@@ -49,17 +49,17 @@ async componentDidMount(){
                     {
                     matches.map( (match,key)=>{
                         return(
-                                   <CarouselItem style={{ height: '350px' , width: '100%'}}>
+                                   <CarouselItem style={{ height: '350px' , width: '100%'}} key={key}>
                                         <img 
                                         src={match.team2.thumbnail}  
                                         alt="image-1"
                                         className="w-100 h-100"
                                         />
 
-                                        <Carousel.Caption style={{ backgroundColor: '#3d2269', borderRadios: '15px'}}>
+                                        <Carousel.Caption style={{ backgroundColor: '#3d2269', borderRadius: '15px'}}>
                                                 <h3>{match.team1.name} vs { match.team2.name}</h3>
                                                 <p>{match.date}</p>
-                                                <Button>
+                                                <Button className="text-uppercase">
                                                     {match.status}
                                                 </Button>
                                         </Carousel.Caption>
