@@ -1,7 +1,7 @@
 
 import axios from 'axios';
 import React from 'react';
-import { Spinner } from 'react-bootstrap';
+import { Alert, Spinner } from 'react-bootstrap';
 import { ThemeConsumer } from 'react-bootstrap/esm/ThemeProvider';
 import Layouts from '../../components/Layouts';
 import ScoreCard from '../../components/ScoreCard/ScoreCard';
@@ -10,7 +10,8 @@ class ScoreCardHome extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
-            scoreCards: []
+            scoreCards: [],
+            requestError: null
          }
     }
 
@@ -42,32 +43,43 @@ componentDidMount = async ()=>{
             const result = await axios.get(`${process.env.REACT_APP_API_SERVER}/scoreCard`)
 
             this.setState({
-                scoreCards: result.data.data
+                scoreCards: result.data.data,
             })
         } catch (error) {
             
+            this.setState({
+                requestError: 'Request Error'
+            })
 
         }
 
 }
 
     render() { 
-        const {scoreCards} = this.state
+        const {scoreCards, requestError} = this.state
         return (
             <Layouts>
                 
             {
-                scoreCards.length > 0 ? 
 
-                scoreCards.map( (card, key)=>{
-                    return(
-                        <ScoreCard card = {card} />
-                    )
-                })
+                requestError == null ?
+                
+                        scoreCards.length > 0 ? 
 
-            :
+                        scoreCards.map( (card, key)=>{
+                            return(
+                                <ScoreCard card = {card} />
+                            )
+                        })
 
-                <Spinner animation="border" />
+                        :
+
+                        <Alert variant="warning">No Data Found !</Alert>
+                
+                :
+
+                      
+                        <Alert variant="warning">{requestError} !</Alert>
             }
 
             </Layouts>

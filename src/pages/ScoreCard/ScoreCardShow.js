@@ -1,7 +1,9 @@
 
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { Spinner } from 'react-bootstrap'
 import Layouts from '../../components/Layouts'
+import PlayersLogs from '../../components/ScoreCard/PlayersLogs'
 import PlayersNotBatted from '../../components/ScoreCard/PlayersNotBatted'
 import ScoreCardShowSummary from './ScoreCardShowSummary'
 
@@ -14,7 +16,6 @@ class ScoreCardShow extends React.Component {
             loading:true,
             scorecard:{},
             activePlayers:[],
-            notYetPlayed:[],
             scoreCardRequestError: null,
         }
     }
@@ -60,59 +61,15 @@ componentDidMount = async() =>{
                         Scores : 145 / 2 (7.5)
                     </div>
 
-                    <div>
-                        <div className="table-responsive">
-                        <table className="table table-bordered">
-                        <thead>
-                            <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Player</th>
-                            <th scope="col">Runs</th>
-                            <th scope="col">Ball</th>
-                            <th scope="col">4s</th>
-                            <th scope="col">6s</th>
-                            <th scope="col">0</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                            <th scope="row">1</th>
-                            <td>Atharith</td>
-                            <td>25</td>
-                            <td>15</td>
-                            <td>2</td>
-                            <td>2</td>
-                            <td>3</td>
-                            </tr>
-
-                            <tr>
-                            <th scope="row">1</th>
-                            <td>Atharith</td>
-                            <td>25</td>
-                            <td>15</td>
-                            <td>2</td>
-                            <td>2</td>
-                            <td>3</td>
-                        </tr>
-
-                        <tr>
-                        <th scope="row">1</th>
-                        <td>Atharith</td>
-                        <td>25</td>
-                        <td>15</td>
-                        <td>2</td>
-                        <td>2</td>
-                        <td>3</td>
-                        </tr>
-                        
-                        </tbody>
-                        </table>
-                        </div>
-                            
-                    </div>
+                  
                         {
-                        
+                           Object.keys(scorecard).length > 0 ?
+                           <>
+                            <PlayersLogs />
                             <PlayersNotBatted  match_id={scorecard.match_id} />
+                            </>
+                            :
+                            <Spinner animation="border" />
                         }
 
                     <hr />
@@ -138,21 +95,6 @@ componentDidMount = async() =>{
                             <td>25</td>
                             <td>15</td>
                             </tr>
-
-                            <tr>
-                            <th scope="row">1</th>
-                            <td>Atharith</td>
-                            <td>25</td>
-                            <td>15</td>
-                        </tr>
-
-                        <tr>
-                        <th scope="row">1</th>
-                        <td>Atharith</td>
-                        <td>25</td>
-                        <td>15</td>
-                        </tr>
-                        
                         </tbody>
                         </table>
                         </div>
@@ -182,36 +124,3 @@ componentDidMount = async() =>{
 }
 
 export default ScoreCardShow;
-
-
-
-
-// updateNotYetPlayers = () => {
-
-//     useEffect( async () => {
-//         try {
-            
-//             const result = await axios.get(`${process.env.REACT_APP_API_SERVER}/getYetToBatPlayers/${params.id}`)
-
-//             setNotYetPlayed(result.data)
-//         } catch (error) {
-            
-//         }
-        
-//     }, [])
-// }
-
-
-
-//     if(params.id) {
-
-//         return(
-         
-           
-//         )
-//     } else {
-//         <Spinner varient="info" animation="border" />
-//     }
-
-    
-// }

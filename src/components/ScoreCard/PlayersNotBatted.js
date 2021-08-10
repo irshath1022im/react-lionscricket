@@ -31,8 +31,6 @@ componentDidMount = async()=> {
 }
 
 render() {
-    console.log('1')
-    console.log(this.props.match_id)
         const {notPlayedPlayers} = this.state
     return (
         <div>
