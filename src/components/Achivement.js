@@ -3,29 +3,30 @@ import dateFormat from 'dateformat';
 import React from 'react';
 import { Button, Spinner } from 'react-bootstrap';
 import Title from '../Shared/Title';
+import { Link } from 'react-router-dom';
 
 class Achivements extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
             achivement : [],
-            loading:false,
+            loading:true,
             links:{}
          }
     }
 
 async componentDidMount (){
 
-        // this.setState({
-        //     loading: false
-        // })
+        this.setState({
+            loading: true
+        })
 
     try {
         const result = await axios.get(`${process.env.REACT_APP_API_SERVER}/matchSummary`)
 
         // console.log(result)
             this.setState({
-                loading:true,
+                loading:false,
                 achivement: result.data.data,
                 links:result.data.links
             })
@@ -34,7 +35,7 @@ async componentDidMount (){
         // console.log(error)
         this.setState({
             achivement: [],
-            loading:false
+            loading:true
         })
     }
 
@@ -45,7 +46,7 @@ async componentDidMount (){
 loadMore = async(url)=>{
   
     this.setState({
-        loading:true,
+        loading: true
     })
 
     try {
@@ -54,7 +55,7 @@ loadMore = async(url)=>{
 
         // console.log(result)
         this.setState({
-            loading:true,
+            loading:false,
             achivement: result.data.data,
             links:result.data.links
         })
@@ -64,7 +65,7 @@ loadMore = async(url)=>{
         console.log(error)
         this.setState({
             achivement: [],
-            loading:false
+            loading:true
         })
     }
 }
@@ -77,7 +78,7 @@ loadMore = async(url)=>{
 
                 
                 {
-                    loading ? 
+                    !loading ? 
 
                             
                             achivement.length > 0 ? 
@@ -114,11 +115,14 @@ loadMore = async(url)=>{
                                                 {item.winning_summary}
                                             </div>
 
-                                            <Button 
+                                            <Link to={`/scorecard/${item.id}`}>
+                                                <Button 
                                                 size="sm" 
                                                 variant="info" 
-                                                className="" 
+                                                className=""
                                             >Score Card</Button>
+                                            </Link>
+                                           
 
 
 

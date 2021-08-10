@@ -3,6 +3,7 @@ import React from 'react'
 import { FcNext, FcPrevious } from 'react-icons/fc';
 import Title from '../Shared/Title';
 import PlayerCard from './Players/PlayerCard';
+import { Spinner } from 'react-bootstrap';
 
 class Players extends React.Component {
     constructor(props) {
@@ -11,15 +12,22 @@ class Players extends React.Component {
             players: [],
             next_page_url: null,
             prev_page_url: null,
+            loading: true
              }
     }
 
 async componentDidMount() {
 
     try {
+
+        this.setState({
+            loading: true
+        })
+    
         const result = await  axios.get(`${process.env.REACT_APP_API_SERVER}/player`)
         // console.log(result)
         this.setState({
+            loading: false,
             players: result.data.data,
             next_page_url: result.data.next_page_url,
             prev_page_url: result.data.prev_page_url
@@ -27,6 +35,9 @@ async componentDidMount() {
 
     } catch (error) {
         console.log(error)
+        this.setState({
+            loading: true
+        })
     }
 
  
@@ -34,20 +45,31 @@ async componentDidMount() {
 
 loadMorePlayer = async () =>{
         const {next_page_url} = this.state
-    try {
-        const result = await axios.get(next_page_url)
-        // console.log(result)
-        if(result.status === 200) {
-            this.setState({
-                players: result.data.data,
-                next_page_url: result.data.next_page_url,
-                prev_page_url: result.data.prev_page_url
 
-            })
+        if(next_page_url !== null ) {
+            try {
+                this.setState({
+                    loading: true
+                })
+
+                const result = await axios.get(next_page_url)
+                // console.log(result)
+                if(result.status === 200) {
+                    this.setState({
+                        players: result.data.data,
+                        next_page_url: result.data.next_page_url,
+                        prev_page_url: result.data.prev_page_url,
+                        loading:false
+
+                    })
+                }
+            } catch (error) {
+                console.log(error)
+                this.setState({
+                    loading: true
+                })
+            }
         }
-    } catch (error) {
-        console.log(error)
-    }
 
          
 
@@ -55,31 +77,44 @@ loadMorePlayer = async () =>{
 
 loadPrevePlayer = async () =>{
     const {prev_page_url} = this.state
-    try {
-        const result = await axios.get(prev_page_url)
-        // console.log(result)
-        if(result.status === 200) {
-            this.setState({
-                players: result.data.data,
-                next_page_url: result.data.next_page_url,
-                prev_page_url: result.data.prev_page_url
 
-            })
+    if(prev_page_url !== null ) {
+            try {
+
+                this.setState({
+                    loading: true
+                })
+                const result = await axios.get(prev_page_url)
+                // console.log(result)
+                if(result.status === 200) {
+                    this.setState({
+                        players: result.data.data,
+                        next_page_url: result.data.next_page_url,
+                        prev_page_url: result.data.prev_page_url,
+                        loading:false
+
+                    })
+                }
+            } catch (error) {
+                console.log(error)
+                this.setState({
+                    loading: true
+                })
+            }
         }
-    } catch (error) {
-        console.log(error)
-    }
 
 
 }
 
 render() { 
-        const {players} = this.state;
+        const {players, loading} = this.state;
         return (
             <div>
                 <Title  title="Players" />
 
                 {
+
+                    !loading ?
 
                     // console.log(players.length)
                     players.length > 0 ?
@@ -105,6 +140,7 @@ render() {
                         <div className="players-fcNext">
                           <FcNext onClick={this.loadMorePlayer}/>
                         </div>
+
                     </div>
 
                     : 
@@ -112,6 +148,9 @@ render() {
                         No Player Found...
                         </div>
 
+                    :
+                
+                    <Spinner animation="border" variant="primary" className="text-center" />
                   
                 }
               

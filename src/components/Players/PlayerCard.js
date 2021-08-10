@@ -6,7 +6,7 @@ export default function PlayerCard( {player}) {
          <Card className="player-card">
             <Card.Img 
                 variant="top" 
-                src={ player.url ?? `/images/logo/lionslogo.jpg`}
+                src={  player.url ? `images/players/${player.url}`: '/images/logo/lionslogo.jpg'}
                 className="rounded-3"
             ></Card.Img>
 
