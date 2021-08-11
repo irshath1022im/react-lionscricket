@@ -79,8 +79,8 @@ componentDidMount(){
 
                                         </Carousel.Caption>
 
-                                        <img src={`images/${item.thumbnail}`} 
-                                        className="" style={{ maxWidth: '100%', Height: '100%'}} />
+                                        <img src={`images/${item.thumbnail}`}
+                                        className="" style={{ maxWidth: '100%', Height: '100%'}} alt={item.id} />
 
                                       
                                    </CarouselItem>
