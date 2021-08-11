@@ -1,6 +1,7 @@
 
 import axios from 'axios';
 import React from 'react'
+import { Alert } from 'react-bootstrap';
 
 class PlayersLogs extends React.Component {
     constructor(props) {
@@ -12,8 +13,10 @@ class PlayersLogs extends React.Component {
 
 componentDidMount = async ()=>{
 
+    const {match_id} = this.props
+
     try {
-        let result = await axios.get('http://localhost:8000/api/getBattedPlayersLogs/1');
+        let result = await axios.get(`${process.env.REACT_APP_API_SERVER}/getBattedPlayersLogs/${match_id}`);
 
         this.setState({
             logs: result.data.data
@@ -26,49 +29,59 @@ componentDidMount = async ()=>{
 }
     render() { 
         const{logs} = this.state
-        return ( 
-            <div>
-                <div className="table-responsive">
-                    <table className="table table-bordered">
-                    <thead>
-                        <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Player</th>
-                        <th scope="col">Runs</th>
-                        <th scope="col">Ball</th>
-                        <th scope="col">4s</th>
-                        <th scope="col">6s</th>
-                        <th scope="col">1</th>
-                        <th scope="col">0</th>
-                        </tr>
-                    </thead>
-                    <tbody>
 
-                        {
-                            logs.length > 0 &&
+                return ( 
+                    <div>
+                        <div className="table-responsive">
+                            <table className="table table-bordered">
+                            <thead>
+                                <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Player</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Runs</th>
+                                <th scope="col">Ball</th>
+                                <th scope="col">4s</th>
+                                <th scope="col">6s</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {
+                                    logs.length > 0 &&
+                                
+                                    logs.map( (log,key)=>{
+                                        return(
+                                            <tr key={key}>
+                                                <th scope="row">{log.player}</th>
+                                                <td>{log.player_name}</td>
+                                                <td>
+                                                    {
+                                                        
+                                                    log.batting_status != 0 ? 'out ' : null }
+                                                    
+                                                </td>
+                                                <td>{log.batting_runs}</td>
+                                                <td>
+                                                {
+                                                
+                                                    log.faced_balls.balls
+                                                }
+                                                </td>
+                                                <td>{log.byRuns[4]}</td>
+                                                <td>{log.byRuns[6]}</td>
+                                               
+                                            </tr>
+                                        )
+                                    })
+                                
+                            }
+                            </tbody>
+                            </table>
+                        </div>
                         
-                            logs.map( (log,key)=>{
-                                return(
-                                    <tr key={key}>
-                                        <th scope="row">{log.player}</th>
-                                        <td>{log.player_name}</td>
-                                        <td>{log.batting_runs}</td>
-                                        <td>{log.faced_balls.ok}</td>
-                                        <td>{log.byRuns[4]}</td>
-                                        <td>{log.byRuns[6]}</td>
-                                        <td>{log.byRuns[1] + log.byRuns[2]*2} </td>
-                                        <td>{log.byRuns[0]}</td>
-                                    </tr>
-                                )
-                            })
-                        
-                    }
-                    </tbody>
-                    </table>
                 </div>
-                
-        </div>
-         );
+                );
     }
 }
  

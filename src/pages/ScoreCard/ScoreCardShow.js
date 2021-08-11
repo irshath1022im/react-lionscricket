@@ -1,7 +1,7 @@
 
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Spinner } from 'react-bootstrap'
+import { Alert, Spinner } from 'react-bootstrap'
 import Layouts from '../../components/Layouts'
 import PlayersLogs from '../../components/ScoreCard/PlayersLogs'
 import PlayersNotBatted from '../../components/ScoreCard/PlayersNotBatted'
@@ -54,20 +54,24 @@ componentDidMount = async() =>{
             if(!scoreCardRequestError ) {
                 return(
                     <Layouts>
-                    
-                        <ScoreCardShowSummary scorecard = {scorecard} />
-                        
-                    <div>
-                        Scores : 145 / 2 (7.5)
-                    </div>
-
                   
                         {
                            Object.keys(scorecard).length > 0 ?
-                           <>
-                            <PlayersLogs />
-                            <PlayersNotBatted  match_id={scorecard.match_id} />
-                            </>
+
+                            <div>
+                                <ScoreCardShowSummary scorecard = {scorecard} />
+                                {
+                                    scorecard.scores_count > 0 ?
+                                    <div>
+                                        <PlayersLogs match_id={scorecard.match_id}/>
+                                        
+                                    </div>
+                                    :
+
+                                    <Alert variant="info"><h6>Sorr!, No Scores found...</h6></Alert>
+                                }
+
+                            </div>
                             :
                             <Spinner animation="border" />
                         }
