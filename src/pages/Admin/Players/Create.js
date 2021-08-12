@@ -1,8 +1,8 @@
 import Axios from 'axios';
 import React from 'react'
-import { storage } from '../../firebase/index';
-import AdminLayouts from '../../components/AdminLayouts';
-import Loading from '../../components/Loading';
+import AdminLayouts from '../../../components/AdminLayouts';
+import Loading from '../../../components/Loading';
+import { storage } from '../../../firebase/index';
 
 
 class CreatePlayer extends React.Component {
@@ -203,7 +203,7 @@ render() {
               
             
             }
-                <div>
+                <div className="container">
                    <form>
 
                      <div className="form-group">

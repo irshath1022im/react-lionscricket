@@ -1,8 +1,8 @@
 import Axios from 'axios'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import AdminLayouts from '../../components/AdminLayouts'
-import MatchCard from '../../components/Match/MatchCard'
+import AdminLayouts from '../../../components/AdminLayouts'
+import MatchCard from '../../../components/Match/MatchCard'
 
 class MatchesHome extends React.Component {
 

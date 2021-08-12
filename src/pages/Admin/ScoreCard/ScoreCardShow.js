@@ -2,10 +2,12 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Alert, Spinner } from 'react-bootstrap'
-import Layouts from '../../components/Layouts'
-import PlayersLogs from '../../components/ScoreCard/PlayersLogs'
-import PlayersNotBatted from '../../components/ScoreCard/PlayersNotBatted'
+import AdminLayouts from '../../../components/AdminLayouts'
+// import Layouts from '../../components/Layouts'
+// import PlayersNotBatted from '../../components/ScoreCard/PlayersNotBatted'
 import ScoreCardShowSummary from './ScoreCardShowSummary'
+import PlayerLogs from '../../../components/ScoreCard/PlayersLogs';
+import BowlerLogs from './BowlerLogs'
 
 class ScoreCardShow extends React.Component {
 
@@ -53,7 +55,7 @@ componentDidMount = async() =>{
 
             if(!scoreCardRequestError ) {
                 return(
-                    <Layouts>
+                    <AdminLayouts>
                   
                         {
                            Object.keys(scorecard).length > 0 ?
@@ -63,7 +65,8 @@ componentDidMount = async() =>{
                                 {
                                     scorecard.scores_count > 0 ?
                                     <div>
-                                        <PlayersLogs match_id={scorecard.match_id}/>
+                                        <PlayerLogs score_card_id={scorecard.score_card_id}/>
+                                        <BowlerLogs score_card_id={scorecard.score_card_id} />
                                         
                                     </div>
                                     :
@@ -78,35 +81,9 @@ componentDidMount = async() =>{
 
                     <hr />
 
-                    <div>
-                        <h6>Bowling ...</h6>
+                
 
-                        <div className="table-responsive">
-                        <table className="table table-bordered">
-                        <thead>
-                            <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Bowler</th>
-                            <th scope="col">Runs</th>
-                            <th scope="col">Over</th>
-                            
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                            <th scope="row">1</th>
-                            <td>Atharith</td>
-                            <td>25</td>
-                            <td>15</td>
-                            </tr>
-                        </tbody>
-                        </table>
-                        </div>
-
-
-                    </div>
-
-                </Layouts>
+                </AdminLayouts>
 
                 )
 
@@ -114,12 +91,12 @@ componentDidMount = async() =>{
 
         else {
             return(
-                <Layouts>
+                <AdminLayouts>
                     <div className="alert alert-info" role="alert">
                       <h4 className="alert-heading">Sorry!</h4>
                       <p>We Could not found the score Card . </p>
                     </div>                  
-                </Layouts>
+                </AdminLayouts>
             )
         }
     }

@@ -13,10 +13,10 @@ class PlayersLogs extends React.Component {
 
 componentDidMount = async ()=>{
 
-    const {match_id} = this.props
+    const {score_card_id} = this.props
 
     try {
-        let result = await axios.get(`${process.env.REACT_APP_API_SERVER}/getBattedPlayersLogs/${match_id}`);
+        let result = await axios.get(`${process.env.REACT_APP_API_SERVER}/getBattedPlayersLogs/${score_card_id}`);
 
         this.setState({
             logs: result.data.data

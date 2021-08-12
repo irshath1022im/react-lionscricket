@@ -2,9 +2,9 @@
 import axios from 'axios';
 import React from 'react';
 import { Alert, Spinner } from 'react-bootstrap';
-import { ThemeConsumer } from 'react-bootstrap/esm/ThemeProvider';
-import Layouts from '../../components/Layouts';
-import ScoreCard from '../../components/ScoreCard/ScoreCard';
+import AdminLayouts from '../../../components/AdminLayouts';
+// import Layouts from '../../components/Layouts';
+import ScoreCard from '../../../components/ScoreCard/ScoreCard';
 
 class ScoreCardHome extends React.Component {
     constructor(props) {
@@ -16,28 +16,6 @@ class ScoreCardHome extends React.Component {
     }
 
 componentDidMount = async ()=>{
-
-        // this.setState({
-        //     scoreCards:[
-        //         {
-        //             "score_card_id": 1,
-        //             "date": "2021-08-07",
-        //             "match_id": 1,
-        //             "team_01": "Lions CC",
-        //             "opponent_team": "Muaither CC",
-        //             "match_status": "closed"
-        //         },
-        //         {
-        //             "score_card_id": 2,
-        //             "date": "2021-08-18",
-        //             "match_id": 2,
-        //             "team_01": "Lions CC",
-        //             "opponent_team": "Golden Star",
-        //             "match_status": "closed"
-        //         },
-        //     ]
-        // })
-
         try {
             
             const result = await axios.get(`${process.env.REACT_APP_API_SERVER}/scoreCard`)
@@ -58,7 +36,7 @@ componentDidMount = async ()=>{
     render() { 
         const {scoreCards, requestError} = this.state
         return (
-            <Layouts>
+            <AdminLayouts>
                 
             {
 
@@ -82,7 +60,7 @@ componentDidMount = async ()=>{
                         <Alert variant="warning">{requestError} !</Alert>
             }
 
-            </Layouts>
+            </AdminLayouts>
             
           );
     }

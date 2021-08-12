@@ -13,10 +13,10 @@ export default function MatchCard({match}) {
                 size='sm'
                 variant={match.status === 'scheduled' ? 'success' : 'info'}
             >
-                {match.status}
+                {match.status} 
             </Button>
             <div className="card-body">
-                <h5 className="card-title">{match.date}</h5>
+                <h5 className="card-title">Match ID: {match.id} , Date:{match.date}</h5>
                     <Row>
                         <Col md={6} sm={4} xs={3}>
                             <img src={match.team1.thumbnail} className="img-fluid" />
@@ -35,6 +35,16 @@ export default function MatchCard({match}) {
                 <Link to={`/admin/matches/${match.id}/addPlayers`}>
                     <button className="btn btn-info" type="button">Add Players</button>
                 </Link>
+
+     
+            
+                <Link to={`/scorecard/${match.score_card[0].id} `}>
+                    <button className="btn btn-secondary" type="button">ScoreCard - {match.score_card[0].id}</button>
+                </Link>
+      
+
+
+
             </div>
     </div>
     )

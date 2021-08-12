@@ -1,9 +1,9 @@
 
 import Axios from 'axios';
 import React from 'react'
+import AdminLayouts from '../../../components/AdminLayouts';
+import RequestError from '../../../components/RequestError';
 
-import AdminLayouts from '../../components/AdminLayouts';
-import RequestError from '../../components/RequestError';
 
 class CreateMatch extends React.Component {
     constructor(props) {
@@ -45,8 +45,6 @@ componentDidMount() {
 
 
 }
-
-
 
 
 addMatch = ()=>{
@@ -97,6 +95,7 @@ addMatch = ()=>{
                 this.props.history.push('/admin/matches')
             }
         })
+
         .catch(error => {
             if(error.request) {
                 // console.log(error.request)
@@ -125,7 +124,7 @@ render() {
                 <h4>Add New Match</h4>
                 <hr />
 
-                <form>
+                <form className="container">
 
                   <div className="form-group">
                     <label htmlFor="formGroupExampleInput">Match Date</label>

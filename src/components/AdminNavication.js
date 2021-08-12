@@ -14,13 +14,26 @@ export default function AdminNavication() {
             <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="me-auto">
 
+                    <Link to="/admin/teams">
+                        <Nav>Teams</Nav>
+                    </Link>
+
                     <Link to="/admin/players">
-                        <Nav>PLAYERS</Nav>
+                        <Nav>Players</Nav>
                     </Link>
 
                 <Link to="/admin/matches">
                     <Nav>Matches</Nav>
                 </Link>
+
+                <Link to="/scorecard">
+                    <Nav>ScoreCards</Nav>
+                </Link>
+
+                <Link to="/admin/addScore">
+                    <Nav>Add Score</Nav>
+                </Link>
+
 
                 {/* <Nav.Link href="#pricing">Pricing</Nav.Link>
                 <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
@@ -33,12 +46,13 @@ export default function AdminNavication() {
                 
                 </Nav>
 
-                <Nav>
+                {/* <Nav>
                         <Nav.Link href="#deets">More deets</Nav.Link>
                         <Nav.Link eventKey={2} href="#memes">
                             Dank memes
                         </Nav.Link>
-                </Nav>
+                </Nav> */}
+
             </Navbar.Collapse>
             </Container>
             </Navbar>

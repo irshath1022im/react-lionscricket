@@ -3,7 +3,7 @@ import Axios from 'axios'
 import React, { Component } from 'react'
 import { Spinner } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import AdminLayouts from '../../components/AdminLayouts'
+import AdminLayouts from '../../../components/AdminLayouts'
 
 export default class PlayersHome extends Component {
     
@@ -70,7 +70,7 @@ render() {
                       {  players.map( (player,key)=>{
                             return(
                                 <div className="card m-2" key={key}>
-                                  <img className="card-img-top" src={player.url} alt={player.name} style={{  width:'40%'}}/>
+                                  <img className="card-img-top" src={`/images/players/${player.url}`} alt={player.name} style={{  width:'40%'}}/>
                                   <div className="card-body ">
 
                                     <div className="d-flex">
